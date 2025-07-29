@@ -1,39 +1,41 @@
 {
-  "rewrites": [
+  "functions": [
     {
-      "source": "/npm/:package@:version/:path*",
-      "destination": "https://cdn.jsdelivr.net/npm/:package@:version/:path*"
+      "path": "/npm/*",
+      "function": "jsdelivr-proxy"
     },
     {
-      "source": "/gh/:user/:repo@:version/:path*",
-      "destination": "https://cdn.jsdelivr.net/gh/:user/:repo@:version/:path*"
+      "path": "/gh/*",
+      "function": "jsdelivr-proxy"
     }
   ],
   
   "headers": [
     {
-      "source": "/*",
+      "source": "/npm/*",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
         },
         {
-          "key": "Timing-Allow-Origin",
-          "value": "*"
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
         }
       ]
-    }
-  ],
-  
-  "caches": [
-    {
-      "source": "/npm/*",
-      "cacheTtl": 2592000
     },
     {
       "source": "/gh/*",
-      "cacheTtl": 2592000
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
     }
   ]
 }
